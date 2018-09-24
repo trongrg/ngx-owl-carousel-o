@@ -14,7 +14,7 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { Subscription, Observable, merge } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { ResizeService } from '../services/resize.service';
 import { tap, delay, filter } from 'rxjs/operators';
@@ -30,10 +30,11 @@ import { LazyLoadService } from '../services/lazyload.service';
 import { AnimateService } from '../services/animate.service';
 import { AutoHeightService } from '../services/autoheight.service';
 import { HashService } from '../services/hash.service';
+import { merge } from 'rxjs/observable/merge';
 
 let nextId = 0;
 
-@Directive({ selector: 'ng-template[carouselSlide]' })
+@Directive({selector: 'ng-template[carouselSlide]'})
 export class CarouselSlideDirective {
   /**
    * Unique slide identifier. Must be unique for the entire document for proper accessibility support.
@@ -50,7 +51,10 @@ export class CarouselSlideDirective {
   set dataMerge(data: number) {
     this._dataMerge = this.isNumeric(data) ? data : 1;
   };
-  get dataMerge(): number { return this._dataMerge }
+
+  get dataMerge(): number {
+    return this._dataMerge
+  }
 
   /**
    * Width of slide
@@ -67,16 +71,17 @@ export class CarouselSlideDirective {
    */
   @Input() dataHash = '';
 
-  constructor(public tplRef: TemplateRef<any>) {}
+  constructor(public tplRef: TemplateRef<any>) {
+  }
 
   /**
-	 * Determines if the input is a Number or something that can be coerced to a Number
-	 * @param - The input to be tested
-	 * @returns - An indication if the input is a Number or can be coerced to a Number
-	 */
+   * Determines if the input is a Number or something that can be coerced to a Number
+   * @param - The input to be tested
+   * @returns - An indication if the input is a Number or can be coerced to a Number
+   */
   isNumeric(number: any): boolean {
-		return !isNaN(parseFloat(number));
-	}
+    return !isNaN(parseFloat(number));
+  }
 }
 
 /**
@@ -91,33 +96,39 @@ export class SlidesOutputData {
   selector: 'owl-carousel-o',
   template: `
     <div class="owl-carousel owl-theme" #owlCarousel
-      [ngClass]="{'owl-rtl': owlDOMData?.rtl,
+         [ngClass]="{'owl-rtl': owlDOMData?.rtl,
                   'owl-loaded': owlDOMData?.isLoaded,
                   'owl-responsive': owlDOMData?.isResponsive,
                   'owl-drag': owlDOMData?.isMouseDragable,
                   'owl-grab': owlDOMData?.isGrab}"
-      (mouseover)="startPausing()"
-      (mouseleave)="startPlayML()"
-      (touchstart)="startPausing()"
-      (touchend)="startPlayTE()">
+         (mouseover)="startPausing()"
+         (mouseleave)="startPlayML()"
+         (touchstart)="startPausing()"
+         (touchend)="startPlayTE()">
 
       <div *ngIf="carouselLoaded" class="owl-stage-outer">
-        <owl-stage [owlDraggable]="{'isMouseDragable': owlDOMData?.isMouseDragable, 'isTouchDragable': owlDOMData?.isTouchDragable}"
-                    [stageData]="stageData"
-                    [slidesData]="slidesData"></owl-stage>
+        <owl-stage
+          [owlDraggable]="{'isMouseDragable': owlDOMData?.isMouseDragable, 'isTouchDragable': owlDOMData?.isTouchDragable}"
+          [stageData]="stageData"
+          [slidesData]="slidesData"></owl-stage>
       </div> <!-- /.owl-stage-outer -->
       <div class="owl-nav" [ngClass]="{'disabled': navData?.disabled}">
-        <div class="owl-prev" [ngClass]="{'disabled': navData?.prev?.disabled}" (click)="prev()" [innerHTML]="navData?.prev?.htmlText"></div>
-        <div class="owl-next" [ngClass]="{'disabled': navData?.next?.disabled}" (click)="next()" [innerHTML]="navData?.next?.htmlText"></div>
+        <div class="owl-prev" [ngClass]="{'disabled': navData?.prev?.disabled}" (click)="prev()"
+             [innerHTML]="navData?.prev?.htmlText"></div>
+        <div class="owl-next" [ngClass]="{'disabled': navData?.next?.disabled}" (click)="next()"
+             [innerHTML]="navData?.next?.htmlText"></div>
       </div> <!-- /.owl-nav -->
       <div class="owl-dots" [ngClass]="{'disabled': dotsData?.disabled}">
-        <div *ngFor="let dot of dotsData?.dots" class="owl-dot" [ngClass]="{'active': dot.active, 'owl-dot-text': dot.showInnerContent}" (click)="moveByDot(dot.id)">
+        <div *ngFor="let dot of dotsData?.dots" class="owl-dot"
+             [ngClass]="{'active': dot.active, 'owl-dot-text': dot.showInnerContent}" (click)="moveByDot(dot.id)">
           <span [innerHTML]="dot.innerContent"></span>
         </div>
       </div> <!-- /.owl-dots -->
     </div> <!-- /.owl-carousel owl-loaded -->
   `,
-  styles: [`.owl-theme { display: block; }`],
+  styles: [`.owl-theme {
+      display: block;
+  }`],
   providers: [
     NavigationService,
     AutoplayService,
@@ -158,21 +169,21 @@ export class CarouselComponent
   /**
    * Data of owl-stage
    */
-	stageData: StageData;
+  stageData: StageData;
 
-	/**
-	 *  Data of every slide
-	 */
+  /**
+   *  Data of every slide
+   */
   slidesData: SlideModel[];
 
   /**
-	 * Data of navigation block
-	 */
-	navData: NavData;
+   * Data of navigation block
+   */
+  navData: NavData;
 
-	/**
-	 * Data of dots block
-	 */
+  /**
+   * Data of dots block
+   */
   dotsData: DotsData;
 
   /**
@@ -215,7 +226,9 @@ export class CarouselComponent
     private animateService: AnimateService,
     private autoHeightService: AutoHeightService,
     private hashService: HashService
-  ) {}
+  ) {
+    // empty
+  }
 
   ngOnInit() {
     this.spyDataStreams();
@@ -227,6 +240,7 @@ export class CarouselComponent
 
   ngAfterContentChecked() {
   }
+
   // ngAfterContentChecked() END
 
   ngAfterContentInit() {
@@ -271,7 +285,8 @@ export class CarouselComponent
     );
 
     this._carouselMerge$ = merge(this._viewCurSettings$, this._translatedCarousel$);
-    this._allObservSubscription = this._carouselMerge$.subscribe(() => {});
+    this._allObservSubscription = this._carouselMerge$.subscribe(() => {
+    });
   }
 
   /**

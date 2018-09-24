@@ -1,11 +1,8 @@
 import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CarouselService } from './carousel.service';
-import { ActivatedRoute, Router } from '@angular/router';
 export declare class HashService implements OnDestroy {
     private carouselService;
-    private route;
-    private router;
     /**
      * Subscription to merge Observable from CarouselService
      */
@@ -14,7 +11,7 @@ export declare class HashService implements OnDestroy {
      * Current url fragment (hash)
      */
     currentHashFragment: string;
-    constructor(carouselService: CarouselService, route: ActivatedRoute, router: Router);
+    constructor(carouselService: CarouselService);
     ngOnDestroy(): void;
     /**
      * Defines Observables which service must observe
@@ -25,8 +22,4 @@ export declare class HashService implements OnDestroy {
      * @param fragment fragment of url
      */
     rewind(fragment: string): void;
-    /**
-     * Initiate listening to ActivatedRoute.fragment
-     */
-    listenToRoute(): void;
 }

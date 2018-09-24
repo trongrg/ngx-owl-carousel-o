@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription, Observable, merge } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { merge } from 'rxjs/observable/merge';
 import { CarouselService } from './carousel.service';
 import { tap, skip } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable()
 export class HashService implements OnDestroy {
@@ -16,9 +16,7 @@ export class HashService implements OnDestroy {
    */
   currentHashFragment: string;
 
-  constructor(private carouselService: CarouselService,
-              private route: ActivatedRoute,
-              private router: Router) {
+  constructor(private carouselService: CarouselService) {
     this.spyDataStreams();
   }
 
@@ -30,9 +28,7 @@ export class HashService implements OnDestroy {
    * Defines Observables which service must observe
    */
   spyDataStreams() {
-    const initializedCarousel$: Observable<string> = this.carouselService.getInitializedState().pipe(
-      tap(() => this.listenToRoute() )
-    );
+    const initializedCarousel$: Observable<string> = this.carouselService.getInitializedState();
 
     const changedSettings$: Observable<any> = this.carouselService.getChangedState().pipe(
       tap(data => {
@@ -43,7 +39,6 @@ export class HashService implements OnDestroy {
           if (!newCurFragment || newCurFragment === this.currentHashFragment) {
 						return;
           }
-          this.router.navigate(['./'], {fragment: newCurFragment, relativeTo: this.route});
         }
       })
     );
@@ -66,21 +61,5 @@ export class HashService implements OnDestroy {
     }
 
 		this.carouselService.to(this.carouselService.relative(position), false);
-  }
-
-  /**
-   * Initiate listening to ActivatedRoute.fragment
-   */
-  listenToRoute() {
-    const count = this.carouselService.settings.startPosition === 'URLHash' ? 0 : 2;
-    this.route.fragment.pipe(
-        skip(count)
-      )
-      .subscribe(
-        fragment => {
-          this.currentHashFragment = fragment;
-          this.rewind(fragment);
-        }
-      )
   }
 }

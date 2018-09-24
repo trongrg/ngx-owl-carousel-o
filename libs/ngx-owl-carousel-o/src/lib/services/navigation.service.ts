@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { NavData, DotsData } from '../models/navigation-data.models';
 import { CarouselSlideDirective } from '../carousel/carousel.module';
 import { CarouselService } from './carousel.service';
-import { Subscription, Observable, merge } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { merge } from 'rxjs/observable/merge';
 import { tap, filter } from 'rxjs/operators';
 import { OwlOptions } from '../models/owl-options.model';
 

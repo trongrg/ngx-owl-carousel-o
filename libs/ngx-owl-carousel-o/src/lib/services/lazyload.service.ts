@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription, Observable, merge } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { merge } from 'rxjs/observable/merge';
 import { CarouselService } from './carousel.service';
 import { tap } from 'rxjs/operators';
 

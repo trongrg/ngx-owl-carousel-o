@@ -10,7 +10,9 @@ export {
   CarouselSlideDirective,
   SlidesOutputData
 } from './carousel/carousel.module';
+
 export { ResizeService } from './services/resize.service';
+
 export {
   WindowRef,
   BrowserWindowRef,

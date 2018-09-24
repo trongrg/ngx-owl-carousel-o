@@ -40,10 +40,10 @@ export declare class CarouselSlideDirective {
     dataHash: string;
     constructor(tplRef: TemplateRef<any>);
     /**
-       * Determines if the input is a Number or something that can be coerced to a Number
-       * @param - The input to be tested
-       * @returns - An indication if the input is a Number or can be coerced to a Number
-       */
+     * Determines if the input is a Number or something that can be coerced to a Number
+     * @param - The input to be tested
+     * @returns - An indication if the input is a Number or can be coerced to a Number
+     */
     isNumeric(number: any): boolean;
 }
 /**
@@ -90,8 +90,8 @@ export declare class CarouselComponent implements OnInit, AfterContentChecked, A
      */
     slidesData: SlideModel[];
     /**
-       * Data of navigation block
-       */
+     * Data of navigation block
+     */
     navData: NavData;
     /**
      * Data of dots block
