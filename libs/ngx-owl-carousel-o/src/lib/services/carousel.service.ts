@@ -483,7 +483,15 @@ export class CarouselService {
             slide.isCentered = false;
             return slide;
           });
-          this.slidesData[this.current()].isCentered = true;
+          const current: any = this.current();
+          for (const s of this.slidesData) {
+            s.classes = {};
+          }
+          this.slidesData[current].isCentered = true;
+          this.slidesData[current - 1].classes = {'previous-1': true};
+          this.slidesData[current - 2].classes = {'previous-2': true};
+          this.slidesData[current + 1].classes = {'next-1': true};
+          this.slidesData[current + 2].classes = {'next-2': true};
         }
       }
     }
@@ -1482,7 +1490,7 @@ export class CarouselService {
    */
   setCurSlideClasses(slide: SlideModel): {[key: string]: boolean} {
     // CSS classes: added/removed per current state of component properties
-    const currentClasses: {[key: string]: boolean} = {
+    let currentClasses: {[key: string]: boolean} = {
       'active': slide.isActive,
       'center': slide.isCentered,
       'cloned': slide.isCloned,
@@ -1490,6 +1498,9 @@ export class CarouselService {
       'owl-animated-in': slide.isDefAnimatedIn,
       'owl-animated-out': slide.isDefAnimatedOut
     };
+
+    currentClasses = Object.assign(currentClasses, slide.classes);
+
     if (this.settings.animateIn) {
       currentClasses[this.settings.animateIn as string] = slide.isCustomAnimatedIn;
     }

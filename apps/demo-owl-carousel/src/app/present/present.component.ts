@@ -31,7 +31,7 @@ export class PresentComponent implements OnInit {
     // margin: 10,
     // slideBy: 'page',
     // merge: true,
-    autoplay: true,
+    autoplay: false,
     autoplayTimeout: 3000,
     // autoplayHoverPause: true,
 		autoplaySpeed: 2000,
@@ -45,21 +45,15 @@ export class PresentComponent implements OnInit {
     // fluidSpeed: 499,
     dragEndSpeed: 350,
     // dotsEach: 4,
-    // center: true,
+    center: true,
     // rewind: true,
     // rtl: true,
     // startPosition: 1,
     // navText: [ '<i class=fa-chevron-left>left</i>', '<i class=fa-chevron-right>right</i>' ],
     responsive: {
       0: {
-        items: 1
+        items: 5
       },
-      600: {
-        items: 2
-      },
-      900: {
-        items: 3
-      }
     },
     // stagePadding: 40,
     nav: true

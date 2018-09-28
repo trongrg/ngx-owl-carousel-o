@@ -7,6 +7,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { HomeModule } from './home/home.module';
 import { PresentModule } from './present/present.module';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [];
 
@@ -18,7 +19,8 @@ const appRoutes: Routes = [];
     HomeModule,
     PresentModule,
     CarouselModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
